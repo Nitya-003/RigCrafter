@@ -16,6 +16,51 @@ RigCrafter is a modern, interactive web application that helps users build custo
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Modern UI**: Beautiful animations and transitions with Framer Motion
 
+## System Architecture
+
+RigCrafter utilizes a modular architecture to separate UI state from complex PC-building logic. This ensures that compatibility checks and suggestions remain fast and accurate.
+
+### Component Interaction Flow
+This diagram illustrates how the `RigBuilder` acts as a central orchestrator between user selections and the logic engines.
+
+```mermaid
+graph TD
+    subgraph "UI Layer (Next.js 15)"
+        RB[RigBuilder Component]
+        CS[Component Selector]
+        BS[Build Summary]
+    end
+
+    subgraph "Logic Engine (lib/)"
+        CC[Compatibility Checker]
+        SR[Suggestion Engine]
+        DT[(Component Data)]
+    end
+
+    CS -->|Selection| RB
+    RB -->|Validate| CC
+    CC -->|Reference| DT
+    RB -->|Optimize| SR
+    RB -->|Updates| BS
+```
+
+### Compatibility Validation Loop
+Whenever a user changes a part, the system executes a multi-point validation check within `lib/compatibility.ts`.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> SelectionChanged: User picks Part
+    SelectionChanged --> LogicCheck: lib/compatibility.ts
+    LogicCheck --> SocketMatch: CPU vs Motherboard
+    LogicCheck --> WattageCheck: TDP vs PSU
+    LogicCheck --> FormFactor: Case vs Mobo
+    SocketMatch --> UI_Warning: Incompatible
+    UI_Warning --> Idle
+    FormFactor --> UI_Success: Compatible
+    UI_Success --> Idle
+```
+
 ## 🚀 Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
@@ -25,6 +70,8 @@ RigCrafter is a modern, interactive web application that helps users build custo
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Font**: Space Grotesk
+- **Architecture Visualization**: Mermaid.js
+- **State Management**: React State (Lifting State Up)
 
 ## 🛠️ Installation
 
