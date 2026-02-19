@@ -1,0 +1,10 @@
+blank_issues_enabled: true
+
+contact_links:
+  - name: Read the Documentation
+    url: https://github.com/SamXop123/rigcrafter#readme
+    about: Please check the README before opening an issue.
+
+  - name: General Discussion
+    url: https://github.com/SamXop123/rigcrafter/discussions
+    about: Ask questions or discuss ideas here.
